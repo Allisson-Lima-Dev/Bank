@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Flex, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Image, Text, useColorModeValue } from '@chakra-ui/react';
 import { Menu, ColorModeSwitcher } from '~/components';
 import { UseHideMenu } from '~/services/hooks/useHideMenu';
 import { Logo } from './logo';
@@ -11,14 +11,19 @@ interface Menu {
 }
 export function Header({ financial, home, config, doubt }: Menu) {
   const hide = UseHideMenu();
+  const colorHeader = useColorModeValue('#fff', '');
+  const bg = useColorModeValue('#1f9ce4', '#1f9ce4');
+
   return (
     <Flex
       as="header"
       w="100%"
-      h={20}
+      h={{base: '60px', lg: 20 }}
       px={{ base: '3', lg: '7' }}
       align="center"
-      bg="blue.800"
+      // bg="#625ad8"
+      bg={bg}
+      color={colorHeader}
       mt="-4px"
       top={0}
       justifyContent={{ base: 'space-between', lg: '' }}
@@ -36,10 +41,10 @@ export function Header({ financial, home, config, doubt }: Menu) {
           src="https://i.imgur.com/iEFLuhM.jpg"
           alt="Images-User"
           borderRadius="50%"
-          w="40px"
+          w={{base: '35px', lg: '40px'}}
           mr={{ base: '3px', lg: '15px' }}
         />
-        <Text mr="5px">Allisson</Text>
+        <Text mr="5px" display={{base: 'none', md: 'flex'}}>Allisson</Text>
         <ColorModeSwitcher />
       </Flex>
     </Flex>

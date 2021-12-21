@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import { AiOutlineHome } from 'react-icons/ai';
 import { CgCalculator } from 'react-icons/cg';
 import { IoMdChatboxes } from 'react-icons/io';
 import { FiSettings } from 'react-icons/fi';
+import { MdLibraryBooks } from 'react-icons/md';
 import Link from 'next/link';
 import { UseHideMenu } from '~/services/hooks/useHideMenu';
 
@@ -16,19 +17,22 @@ interface Menu {
 
 export function Menu({ financial, home, config, doubt }: Menu) {
   const hide = UseHideMenu();
+  const bgMenu = useColorModeValue('#fff', '#1a202c');
+  const color = useColorModeValue('#b1c4cf', '#315d76');
+  const colorDefaultIcons = {base: '#1f9ce4', lg: '#fff'}
   return (
     <Flex
-      w={['full', 'full', 'full', '70%']}
+      w={['full', 'full', 'full', '67%']}
       mx="auto"
-      h="50px"
+      h={{ base: '40px', lg: '50px' }}
+      bg={{ base: bgMenu, lg: 'transparent' }}
       justify={[
         'space-around',
         'space-around',
         'space-around',
         'space-between',
       ]}
-      
-      position={['fixed', 'fixed', 'fixed', 'inherit']}
+      position="fixed"
       zIndex="1000"
       bottom={['0', '', '', '700px']}
       left="0"
@@ -43,10 +47,12 @@ export function Menu({ financial, home, config, doubt }: Menu) {
           borderTop="4px solid"
           justify={{ base: 'center', md: '' }}
           w="15%"
-          borderTopColor={home ? '#FCBB62' : 'transparent'}
+          borderTopColor={home ? colorDefaultIcons : 'transparent'}
         >
-          <Flex align="center" pt="15px">
-            <AiOutlineHome />
+          <Flex align="center" pt={{base: '8px', lg: '15px'}}>
+          <Box color={home? colorDefaultIcons : {base: color, lg: '#fff'}}>
+            <AiOutlineHome size={25} />
+            </Box>
             <Text display={['none', 'none', 'none', 'flex']} ml="5px">
               Home
             </Text>
@@ -60,12 +66,14 @@ export function Menu({ financial, home, config, doubt }: Menu) {
           borderTop="4px solid"
           w="15%"
           justify={{ base: 'center', md: '' }}
-          borderTopColor={financial ? '#FCBB62' : 'transparent'}
+          borderTopColor={financial ? colorDefaultIcons : 'transparent'}
         >
-          <Flex align="center" pt="15px">
-            <CgCalculator />
+          <Flex align="center" pt={{base: '8px', lg: '15px'}}>
+          <Box color={ financial ? colorDefaultIcons : {base: color, lg: '#fff'}}>
+            <CgCalculator size={25} />
+            </Box>
             <Text display={['none', 'none', 'none', 'flex']} ml="5px">
-              Finaceiro
+              Financeiro
             </Text>
           </Flex>
         </Flex>
@@ -79,10 +87,30 @@ export function Menu({ financial, home, config, doubt }: Menu) {
           justify={{ base: 'center', md: '' }}
           borderTopColor={doubt ? '#FCBB62' : 'transparent'}
         >
-          <Flex align="center" pt="15px">
-            <IoMdChatboxes />
+          <Flex align="center" pt={{base: '8px', lg: '15px'}}>
+            <Box color={ doubt ? colorDefaultIcons : {base: color, lg: '#fff'}}>
+              <IoMdChatboxes size={26} />
+            </Box>
             <Text display={['none', 'none', 'none', 'flex']} ml="5px">
-              Administração
+              Contatos
+            </Text>
+          </Flex>
+        </Flex>
+      </Link>
+      <Link href="/dobout">
+        <Flex
+          cursor="pointer"
+          borderTop="4px solid"
+          w="15%"
+          justify={{ base: 'center', md: '' }}
+          borderTopColor={doubt ? '#FCBB62' : 'transparent'}
+        >
+          <Flex align="center" pt={{base: '8px', lg: '15px'}}>
+            <Box color={{ base: color, lg: '#fff' }}>
+              <MdLibraryBooks size={26} />
+            </Box>
+            <Text display={['none', 'none', 'none', 'flex']} ml="5px">
+              Sobre
             </Text>
           </Flex>
         </Flex>
@@ -96,10 +124,12 @@ export function Menu({ financial, home, config, doubt }: Menu) {
           justify={{ base: 'center', md: '' }}
           borderTopColor={config ? '#FCBB62' : 'transparent'}
         >
-          <Flex align="center" pt="15px">
-            <FiSettings />
+          <Flex align="center" pt={{base: '8px', lg: '15px'}}>
+            <Box color={ config ? colorDefaultIcons : {base: color, lg: '#fff'}}>
+              <FiSettings size={25} />
+            </Box>
             <Text display={['none', 'none', 'none', 'flex']} ml="5px">
-              Usuário
+              Configuração
             </Text>
           </Flex>
         </Flex>
