@@ -171,11 +171,11 @@ export default function Control() {
                   iconLabel={<AiOutlineRise size={30} />}
                   bgRevenue={true}
                   borderRadiusBg={true}
-                  ml={{base: '', lg: '5px'}}
+                  ml={{ base: '', lg: '5px' }}
                 />
               </Flex>
               <Flex
-                mt={{base: '', lg: '20px'}}
+                mt={{ base: '', lg: '20px' }}
                 w={{ base: '95%', lg: '100%' }}
                 mx={'auto'}
                 flexDir={{ base: 'column', lg: 'row' }}
@@ -191,7 +191,7 @@ export default function Control() {
                 />
                 <CardValues
                   title="Investimento"
-                  ml={{base: '', lg: '5px'}}
+                  ml={{ base: '', lg: '5px' }}
                   value={4000}
                   buttonHide={true}
                   iconLabel={<AiOutlineBarChart size={30} />}
@@ -287,7 +287,6 @@ export default function Control() {
                 <Box
                   w={{ base: '95%', lg: '100%' }}
                   mx="auto"
-
                   borderRadius="20px"
                   boxShadow={shadow}
                   p={{ base: '15px', lg: '10px' }}
@@ -298,7 +297,7 @@ export default function Control() {
                     options={options}
                     series={series}
                     type="area"
-                    width={"100%"}
+                    width={'100%'}
                     height={210}
                   />
                 </Box>
@@ -344,7 +343,7 @@ export default function Control() {
                   <Box
                     w={{ base: '95%', lg: '500px' }}
                     mx="auto"
-                    mr={{base: '', lg: '20px'}}
+                    mr={{ base: '', lg: '20px' }}
                     borderRadius="20px"
                     boxShadow={shadow}
                     p={{ base: '10px', lg: '20px 15px' }}
