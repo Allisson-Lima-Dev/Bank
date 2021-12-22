@@ -15,19 +15,19 @@ export function Header({ financial, home, config, doubt }: Menu) {
   const bg = useColorModeValue('#1f9ce4', '#1f9ce4');
 
   return (
+    <div style={{position: 'fixed', top: '0', right: '0', left: '0', background: '#1f9ce4', zIndex: '1000',}}>
     <Flex
       as="header"
       w="100%"
       h={{base: '60px', lg: 20 }}
       px={{ base: '3', lg: '7' }}
       align="center"
-      // bg="#625ad8"
-      bg={bg}
+      // bg={bg}
       color={colorHeader}
       mt="-4px"
-      top={0}
+      // top={0}
       justifyContent={{ base: 'space-between', lg: '' }}
-      pos="fixed"
+      // pos="fixed"
       display={{ base: hide == 'flex' ? 'flex' : 'none', lg: 'flex' }}
     >
       <Logo />
@@ -48,5 +48,6 @@ export function Header({ financial, home, config, doubt }: Menu) {
         <ColorModeSwitcher />
       </Flex>
     </Flex>
+    </div>
   );
 }

@@ -50,6 +50,7 @@ export default function Home() {
                 h="50px"
                 color="#fff"
                 mt={{ base: '30px', md: '80px' }}
+                // pos={'static'}
               >
                 Saber mais
               </Button>

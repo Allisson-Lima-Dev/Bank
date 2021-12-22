@@ -1,0 +1,17 @@
+.app {
+  width: 100%;
+}
+@media (max-width: 994px) {
+  .app {
+    position: fixed;
+    bottom: 0;
+  }
+}
+@media (min-width: 1700px) {
+  .container{
+    box-shadow: 0 0 1em black;
+    border-radius: 20px;
+    padding: 50px;
+    width: 80%;
+  }
+}

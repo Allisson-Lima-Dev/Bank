@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Button, Center, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, BoxProps, Flex, Text } from '@chakra-ui/react';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
-interface CardValue {
+interface CardValue extends BoxProps{
   title: string;
   value: number | string;
   buttonHide: boolean;
@@ -10,6 +10,7 @@ interface CardValue {
   bgExpense?: boolean;
   bgInvestment?: boolean;
   borderRadiusBg?: boolean;
+  widthCard?: string;
 }
 export function CardValues({
   buttonHide,
@@ -20,6 +21,8 @@ export function CardValues({
   bgExpense,
   bgInvestment,
   borderRadiusBg,
+  widthCard,
+  ...rest
 }: CardValue) {
   const [showValue, setShowValue] = useState(false);
   const handleShowValue = () => {
@@ -29,14 +32,16 @@ export function CardValues({
     <Flex
       flexDir={'column'}
       justify={'center'}
-      w="230px"
-      h="90px"
-      mr="10px"
+      w={ widthCard || "190px"}
+      h="70px"
+      {...rest}
+      mt="5px"
       p="2px 15px"
       borderRadius="15px"
-      boxShadow={'dark-lg'}
+      boxShadow={'lg'}
     >
-      <Text textTransform="uppercase" fontSize={20} fontWeight="normal">
+
+      <Text textTransform="uppercase" fontSize="1em" fontWeight="normal">
         {title}
       </Text>
       <Flex align="center" justify="space-between">
@@ -45,7 +50,7 @@ export function CardValues({
             // display={showValue ? 'none' : 'flex'}
             mr="15px"
             mt="5px"
-            fontSize={27}
+            fontSize="1.2em"
             color={
               bgRevenue
                 ? 'green'

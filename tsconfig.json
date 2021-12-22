@@ -30,7 +30,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/components/Grafich/index.tsx"  ],
   "exclude": [
     "node_modules"
   ]

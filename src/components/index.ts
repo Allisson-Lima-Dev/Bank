@@ -5,7 +5,6 @@ import { Menu } from './menu';
 import { Header } from './header';
 import { Select } from './select';
 import { CardValues } from './cards/cardValues';
-import { CircularProgress } from './CircularProgress';
 export {
   ColorModeSwitcher,
   Menu,
@@ -14,5 +13,4 @@ export {
   Header,
   CardValues,
   Select,
-  CircularProgress,
 };
