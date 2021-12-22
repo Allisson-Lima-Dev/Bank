@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, BoxProps, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, BoxProps, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 interface CardValue extends BoxProps{
   title: string;
@@ -28,6 +28,7 @@ export function CardValues({
   const handleShowValue = () => {
     setShowValue(!showValue);
   };
+  const shadow = useColorModeValue('lg', 'dark-lg');
   return (
     <Flex
       flexDir={'column'}
@@ -38,7 +39,7 @@ export function CardValues({
       mt="5px"
       p="2px 15px"
       borderRadius="15px"
-      boxShadow={'lg'}
+      boxShadow={shadow}
     >
 
       <Text textTransform="uppercase" fontSize="1em" fontWeight="normal">
@@ -84,6 +85,7 @@ export function CardValues({
         <Box
           display={borderRadiusBg ? 'flex' : 'none'}
           borderRadius="50%"
+          color='#fff'
           bg={
             bgRevenue
               ? 'green'

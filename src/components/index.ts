@@ -5,6 +5,8 @@ import { Menu } from './menu';
 import { Header } from './header';
 import { Select } from './select';
 import { CardValues } from './cards/cardValues';
+import { CardHistory } from './cards/cardHistory';
+
 export {
   ColorModeSwitcher,
   Menu,
@@ -13,4 +15,5 @@ export {
   Header,
   CardValues,
   Select,
+  CardHistory
 };

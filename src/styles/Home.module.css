@@ -8,7 +8,7 @@
   }
 }
 @media (min-width: 1700px) {
-  .container{
+  .container {
     box-shadow: 0 0 1em black;
     border-radius: 20px;
     padding: 50px;
