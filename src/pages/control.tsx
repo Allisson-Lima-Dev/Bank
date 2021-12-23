@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -138,6 +138,27 @@ export default function Control() {
       data: [20, 10, 65, 750, 249, 3, 70, 91, 15, 140, 63, 356],
     },
   ]);
+
+  const [operato, setOperator] = useState<string>();
+  const [card, setCard] = useState<any>({
+    expense: false,
+    revenue: false,
+  });
+
+  const ValuesTransation = [
+    { id: 1, name: 'Carro', amount: 52, type: 1 },
+    { id: 2, name: 'Moto', amount: 612, type: 2 },
+    { id: 3, name: 'Viagem', amount: 252, type: 1 },
+    { id: 4, name: 'aniversario', amount: 62, type: 3 },
+  ];
+
+
+  console.log(card);
+
+  const initial = () => {
+    ValuesTransation.forEach(card);
+  };
+  console.log(initial);
 
   return (
     <Box>
@@ -350,24 +371,22 @@ export default function Control() {
                   >
                     <Text>Histórico de Transações</Text>
                     <Flex></Flex>
-                    <CardHistory
-                      expense={true}
-                      name="Internet"
-                      value={120.35}
-                      date={'12/12/21'}
-                    />
-                    <CardHistory
-                      revenue={true}
-                      name="Salario"
-                      value={222.32}
-                      date={'12/12/21'}
-                    />
-                    <CardHistory
-                      goal={true}
-                      name="Viagem"
-                      value={222.32}
-                      date={'12/12/21'}
-                    />
+                    {ValuesTransation.map((item: any, key) => {
+                      return (
+                        <CardHistory
+                          key={item.id}
+                          expense={item.type == 2 ? true : false}
+                          revenue={item.type == 1 ? true : false}
+                          goal={item.type == 3 ? true : false}
+                          type={
+                            item.type == 1 ? '+' : item.type == 3 ? '+' : '-'
+                          }
+                          name={item.name}
+                          value={item.amount}
+                          date={'12/12/21'}
+                        />
+                      );
+                    })}
                   </Box>
                   <Box
                     w={{ base: '95%', lg: 'auto' }}
