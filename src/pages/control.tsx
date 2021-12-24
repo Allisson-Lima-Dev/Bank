@@ -29,50 +29,36 @@ import style from '~/styles/Home.module.css';
 import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
+enum GenderEnum {
+  expense = 'Despesa',
+  revenue = 'Receita',
+  goal = 'Meta',
+}
+
+interface DataTransition {
+  id: number;
+  name: string;
+  amount: number;
+  type: number;
+}
+
 export default function Control() {
   const TransitionInFormSchema = yup.object().shape({
-    valuePerson: yup.string().default('1'),
-    revenue: yup.string().when('valuePerson', {
-      is: (val: string) => val === '1',
-      then: yup
-        .string()
-        .min(14, 'Seu CPF deve conter 11 digitos')
-        .max(14, 'Seu CPF deve conter 11 digitos')
-        .required(),
-      otherwise: yup.string(),
-    }),
-    expense: yup.string().when('valuePerson', {
-      is: (val: string) => val === '2',
-      then: yup
-        .string()
-        .min(14, 'Seu CPF deve conter 11 digitos')
-        .max(14, 'Seu CPF deve conter 11 digitos')
-        .required(),
-      otherwise: yup.string(),
-    }),
-    goal: yup.string().when('valuePerson', {
-      is: (val: string) => val === '3',
-      then: yup
-        .string()
-        .min(14, 'Seu CPF deve conter 11 digitos')
-        .max(14, 'Seu CPF deve conter 11 digitos')
-        .required(),
-      otherwise: yup.string(),
-    }),
     name: yup.string().required('Nome Obrigatório'),
-    value: yup.string().required('Valor obrigatorio'),
+    type: yup.string().required('Nome Obrigatório'),
+    amount: yup.string().required('Valor obrigatorio'),
   });
 
   const shadow = useColorModeValue('lg', 'dark-lg');
   const colorChart = useColorModeValue('#000', '#f5f');
   const valorPor = (638 * 100) / 5000;
-  const [valuePerson, setValuePerson] = useState<string>('1');
+  const [valuePerson, setValuePerson] = useState<any>('1');
 
-  function alterValuePerson(value: string) {
-    setValue('valuePerson', value);
-  }
+  // function alterValuePerson(value: string) {
+  //   setValue('valuePerson', value);
+  // }
   console.log(valuePerson);
-  const { register, handleSubmit, formState, setValue } = useForm({
+  const { register, handleSubmit, formState, setValue, getValues } = useForm({
     resolver: yupResolver(TransitionInFormSchema),
   });
 
@@ -138,13 +124,6 @@ export default function Control() {
       data: [20, 10, 65, 750, 249, 3, 70, 91, 15, 140, 63, 356],
     },
   ]);
-
-  const [operato, setOperator] = useState<string>();
-  const [card, setCard] = useState<any>({
-    expense: false,
-    revenue: false,
-  });
-
   const ValuesTransation = [
     { id: 1, name: 'Carro', amount: 52, type: 1 },
     { id: 2, name: 'Moto', amount: 612, type: 2 },
@@ -152,13 +131,51 @@ export default function Control() {
     { id: 4, name: 'aniversario', amount: 62, type: 3 },
   ];
 
+  let [total, setTotal] = useState<any>([
+    { id: 1, name: 'Carro', amount: 52, type: 1 },
+    { id: 2, name: 'Moto', amount: 612, type: 2 },
+    { id: 3, name: 'Viagem', amount: 252, type: 1 },
+    { id: 4, name: 'aniversario', amount: 62, type: 3 },
+  ]);
+  const [despesa, setDespesa] = useState<any>();
+  // const DBestorage = JSON.parse(total)
+  // let transactions = localStorage.getItem('transactions') !== null ? DBestorage : []
 
-  console.log(card);
+  // const LocalStorage = () => {
+  //   localStorage.setItem('transactions', JSON.stringify(transactions))
+  // }
 
-  const initial = () => {
-    ValuesTransation.forEach(card);
+  const initial = () => {};
+
+  const generateId = () => Math.round(Math.random() * 1000);
+
+  const handleTransition = (data: DataTransition) => {
+    //   let key = localStorage.key(1);
+
+    // if (key === null) {
+    //   localStorage.setItem('1', JSON.stringify(total));
+    // } else {
+    //   localStorage.setItem(parseInt(key) + '1', JSON.stringify(total));
+    // }
+    const transition = {
+      id: generateId(),
+      name: data.name,
+      amount: data.amount,
+      type: data.type,
+    };
+
+    console.log(transition);
+    localStorage.setItem('myValueInLocalStorage', JSON.stringify(total));
+
+    setTotal([transition, ...total]);
+    initial();
   };
-  console.log(initial);
+
+  function clearFields(e: any) {
+    e.target.value = '';
+  }
+
+  // console.log(total);
 
   return (
     <Box>
@@ -222,6 +239,8 @@ export default function Control() {
                 />
               </Flex>
               <Box
+                as="form"
+                onSubmit={handleSubmit(handleTransition)}
                 w={{ base: '95%', lg: '400px' }}
                 mx={'auto'}
                 borderRadius="20px"
@@ -229,64 +248,48 @@ export default function Control() {
                 p={{ base: '15px', lg: '8px 15px' }}
               >
                 <Select
-                  name="type"
                   label="Transação:"
                   defaultValue={1}
                   mb="3px"
-                  onChange={(e: any) => setValuePerson(e.target.value)}
+                  {...register('type')}
+                  onClick={() => setValuePerson(getValues('type'))}
+                  // onChange={(e: any) => setValuePerson(e.target.value)}
                 >
                   <option value={1}>Receita</option>
                   <option value={2}>Despesas</option>
                   <option value={3}>Meta</option>
                 </Select>
-                {valuePerson == '3' ? (
-                  <Box>
-                    <Input
-                      name="value"
-                      placeholder="Nome da Meta"
-                      label="Meta:"
-                      mb="3px"
-                    />
-                    <Input
-                      name="meta"
-                      placeholder="Valor da Meta"
-                      label="Valor:"
-                      mb="3px"
-                    />
-                  </Box>
-                ) : valuePerson == '2' ? (
-                  <Box>
-                    <Input
-                      name="value"
-                      placeholder="Nome da Despesa"
-                      label="Despesa:"
-                      mb="3px"
-                    />
-                    <Input
-                      name="meta"
-                      placeholder="Valor da Despesa"
-                      label="Valor:"
-                      mb="3px"
-                    />
-                  </Box>
-                ) : valuePerson == '1' ? (
-                  <Box>
-                    <Input
-                      name="value"
-                      placeholder="Nome da Receita"
-                      label="Receita"
-                      mb="3px"
-                    />
-                    <Input
-                      name="meta"
-                      placeholder="Valor da Receita"
-                      label="Valor:"
-                      mb="3px"
-                    />
-                  </Box>
-                ) : (
-                  ''
-                )}
+                <Input
+                  placeholder={
+                    valuePerson == '3'
+                      ? 'Nome da Meta'
+                      : valuePerson == '2'
+                      ? 'Nome da Despesa'
+                      : valuePerson == '1'
+                      ? 'Nome da Receita'
+                      : ''
+                  }
+                  label={
+                    valuePerson == '3'
+                      ? 'Meta'
+                      : valuePerson == '2'
+                      ? 'Despesa'
+                      : valuePerson == '1'
+                      ? 'Receita'
+                      : ''
+                  }
+                  mb="3px"
+                  {...register('name')}
+                  error={formState.errors.name}
+                />
+
+                <Input
+                  placeholder="Valor da Receita"
+                  label="Valor:"
+                  mb="3px"
+                  {...register('amount')}
+                  error={formState.errors.amount}
+                />
 
                 <Button
                   bg="#1f9ce4"
@@ -294,6 +297,7 @@ export default function Control() {
                   h="50px"
                   color="#fff"
                   mt={{ base: '30px', md: '20px' }}
+                  type="submit"
                   pos={'static'}
                 >
                   Adicionar
@@ -371,22 +375,22 @@ export default function Control() {
                   >
                     <Text>Histórico de Transações</Text>
                     <Flex></Flex>
-                    {ValuesTransation.map((item: any, key) => {
-                      return (
-                        <CardHistory
-                          key={item.id}
-                          expense={item.type == 2 ? true : false}
-                          revenue={item.type == 1 ? true : false}
-                          goal={item.type == 3 ? true : false}
-                          type={
-                            item.type == 1 ? '+' : item.type == 3 ? '+' : '-'
-                          }
-                          name={item.name}
-                          value={item.amount}
-                          date={'12/12/21'}
-                        />
-                      );
-                    })}
+                    {total &&
+                      total.map((item: any) => {
+                        return (
+                          <CardHistory
+                            key={item.id}
+                            expense={item.type == 2 ? true : false}
+                            revenue={item.type == 1 ? true : false}
+                            goal={item.type == 3 ? true : false}
+                            type={
+                              item.type == 1 ? '+' : item.type == 3 ? '+' : '-'
+                            }
+                            name={item.name}
+                            value={item.amount}
+                          />
+                        );
+                      })}
                   </Box>
                   <Box
                     w={{ base: '95%', lg: 'auto' }}

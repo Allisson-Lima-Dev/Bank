@@ -12,7 +12,7 @@ interface CardProps {
   goal?: boolean;
   name: string;
   value: string | number;
-  date: any;
+  date?: any;
   type: string | number;
 }
 
