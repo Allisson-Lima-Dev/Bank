@@ -50,13 +50,10 @@ export default function Control() {
   });
 
   const shadow = useColorModeValue('lg', 'dark-lg');
-  const colorChart = useColorModeValue('#000', '#f5f');
+
   const valorPor = (638 * 100) / 5000;
   const [valuePerson, setValuePerson] = useState<any>('1');
 
-  // function alterValuePerson(value: string) {
-  //   setValue('valuePerson', value);
-  // }
   console.log(valuePerson);
   const { register, handleSubmit, formState, setValue, getValues } = useForm({
     resolver: yupResolver(TransitionInFormSchema),
@@ -124,12 +121,6 @@ export default function Control() {
       data: [20, 10, 65, 750, 249, 3, 70, 91, 15, 140, 63, 356],
     },
   ]);
-  const ValuesTransation = [
-    { id: 1, name: 'Carro', amount: 52, type: 1 },
-    { id: 2, name: 'Moto', amount: 612, type: 2 },
-    { id: 3, name: 'Viagem', amount: 252, type: 1 },
-    { id: 4, name: 'aniversario', amount: 62, type: 3 },
-  ];
 
   let [total, setTotal] = useState<any>([
     { id: 1, name: 'Carro', amount: 52, type: 1 },
@@ -137,45 +128,25 @@ export default function Control() {
     { id: 3, name: 'Viagem', amount: 252, type: 1 },
     { id: 4, name: 'aniversario', amount: 62, type: 3 },
   ]);
-  const [despesa, setDespesa] = useState<any>();
-  // const DBestorage = JSON.parse(total)
-  // let transactions = localStorage.getItem('transactions') !== null ? DBestorage : []
-
-  // const LocalStorage = () => {
-  //   localStorage.setItem('transactions', JSON.stringify(transactions))
-  // }
 
   const initial = () => {};
 
   const generateId = () => Math.round(Math.random() * 1000);
 
   const handleTransition = (data: DataTransition) => {
-    //   let key = localStorage.key(1);
-
-    // if (key === null) {
-    //   localStorage.setItem('1', JSON.stringify(total));
-    // } else {
-    //   localStorage.setItem(parseInt(key) + '1', JSON.stringify(total));
-    // }
     const transition = {
       id: generateId(),
       name: data.name,
-      amount: data.amount,
+      amount: data.type == 2 ? `-${data.amount}` : data.amount,
       type: data.type,
     };
 
     console.log(transition);
-    localStorage.setItem('myValueInLocalStorage', JSON.stringify(total));
+    localStorage.setItem('Transations', JSON.stringify(total));
 
     setTotal([transition, ...total]);
     initial();
   };
-
-  function clearFields(e: any) {
-    e.target.value = '';
-  }
-
-  // console.log(total);
 
   return (
     <Box>
@@ -383,11 +354,9 @@ export default function Control() {
                             expense={item.type == 2 ? true : false}
                             revenue={item.type == 1 ? true : false}
                             goal={item.type == 3 ? true : false}
-                            type={
-                              item.type == 1 ? '+' : item.type == 3 ? '+' : '-'
-                            }
+                            type={item.type}
                             name={item.name}
-                            value={item.amount}
+                            value={Math.abs(item.amount)}
                           />
                         );
                       })}

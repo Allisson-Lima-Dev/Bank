@@ -59,7 +59,7 @@ export function CardHistory({
             {date}
           </Text>
           <Flex align={'center'}>
-            <Text mr="5px" color={ColorValues}>{`${type} ${value}`}</Text>
+            <Text mr="5px" color={ColorValues}>{`${type == 2? '-' : '+'} R$ ${value}`}</Text>
 
             {revenue ? (
               <BsArrowUpCircleFill size={20} color="green" />
