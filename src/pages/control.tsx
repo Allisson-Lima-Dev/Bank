@@ -51,13 +51,70 @@ export default function Control() {
 
   const shadow = useColorModeValue('lg', 'dark-lg');
 
-  const valorPor = (638 * 100) / 5000;
+
   const [valuePerson, setValuePerson] = useState<any>('1');
 
   console.log(valuePerson);
   const { register, handleSubmit, formState, setValue, getValues } = useForm({
     resolver: yupResolver(TransitionInFormSchema),
   });
+  let [total, setTotal] = useState<any>([
+    { id: 1, name: 'Carro', amount: -52, type: 2 },
+    { id: 2, name: 'Moto', amount: 612, type: 1 },
+    { id: 3, name: 'Viagem', amount: -252, type: 2 },
+    { id: 4, name: 'aniversario', amount: 62, type: 3 },
+    { id: 6, name: 'Show', amount: 92, type: 3 },
+  ]);
+
+  const initial = () => {};
+
+  const generateId = () => Math.round(Math.random() * 1000);
+
+  const handleTransition = (data: DataTransition) => {
+    const transition = {
+      id: generateId(),
+      name: data.name,
+      amount: Number(data.type == 2 ? `-${data.amount}` : data.amount),
+      type: data.type,
+    };
+
+    console.log(transition);
+    localStorage.setItem('Transations', JSON.stringify(total));
+
+    setTotal([transition, ...total]);
+    initial();
+  };
+
+  const transationsAmounts = total.map((transition: any) => transition.amount);
+  const ValueTotal = transationsAmounts
+    .reduce(
+      (accumulator: any, transaction: any) => accumulator + transaction,
+      0,
+    )
+    .toFixed(2);
+
+  const income = transationsAmounts
+    .filter((amount: any) => amount > 0)
+    .reduce(
+      (accumulator: any, transaction: any) => accumulator + transaction,
+      0,
+    )
+    .toFixed(2);
+  const expense = transationsAmounts
+    .filter((amount: any) => amount < 0)
+    .reduce(
+      (accumulator: any, transaction: any) => accumulator + transaction,
+      0,
+    )
+    .toFixed(2);
+  const goal = total.filter((goal: any) => goal.type == 3);
+  const amountGoal = goal.map((goal: any) => goal.amount).reduce((accumulator: any, transaction: any) => accumulator + transaction,
+  0,)
+
+  const valorPor = (amountGoal * 100) / 4000;
+  console.log(amountGoal);
+
+  console.log(ValueTotal);
 
   const [options, setOptions] = useState({
     chart: {
@@ -96,57 +153,33 @@ export default function Control() {
         'fev',
         'mar',
         'abr',
-        'mai',
-        'jun',
-        'jul',
-        'ago',
-        'set',
-        'out',
-        'nov',
-        'dez',
+        // 'mai',
+        // 'jun',
+        // 'jul',
+        // 'ago',
+        // 'set',
+        // 'out',
+        // 'nov',
+        // 'dez',
       ],
     },
   });
+
+
   const [series, setSeries] = useState([
     {
       name: 'Receitas',
-      data: [526, 40, 35, 50, 49, 60, 70, 91, 125, 500, 63, 956],
+      data: [income, 10, 10, 10], //10, 10, 10, 10, 10, 10, 10, 10],
     },
     {
       name: 'Despesas',
-      data: [20, 140, 35, 550, 49, 30, 670, 91, 125, 200, 63, 856],
+      data: [expense, 10, 10, 10], //, 10, 10, 10, 10, 10, 10, 10, 10],
     },
     {
       name: 'Meta',
-      data: [20, 10, 65, 750, 249, 3, 70, 91, 15, 140, 63, 356],
+      data: [20, 10, 65, 750], // 249, 3, 70, 91, 15, 140, 63, 356],
     },
   ]);
-
-  let [total, setTotal] = useState<any>([
-    { id: 1, name: 'Carro', amount: 52, type: 1 },
-    { id: 2, name: 'Moto', amount: 612, type: 2 },
-    { id: 3, name: 'Viagem', amount: 252, type: 1 },
-    { id: 4, name: 'aniversario', amount: 62, type: 3 },
-  ]);
-
-  const initial = () => {};
-
-  const generateId = () => Math.round(Math.random() * 1000);
-
-  const handleTransition = (data: DataTransition) => {
-    const transition = {
-      id: generateId(),
-      name: data.name,
-      amount: data.type == 2 ? `-${data.amount}` : data.amount,
-      type: data.type,
-    };
-
-    console.log(transition);
-    localStorage.setItem('Transations', JSON.stringify(total));
-
-    setTotal([transition, ...total]);
-    initial();
-  };
 
   return (
     <Box>
@@ -169,13 +202,13 @@ export default function Control() {
                 <CardValues
                   widthCard="100%"
                   title="Saldo Atual"
-                  value={4000}
+                  value={ValueTotal}
                   buttonHide={false}
                 />
                 <CardValues
                   widthCard="100%"
                   title="receita"
-                  value={4000}
+                  value={income}
                   buttonHide={true}
                   iconLabel={<AiOutlineRise size={30} />}
                   bgRevenue={true}
@@ -191,7 +224,7 @@ export default function Control() {
               >
                 <CardValues
                   title="despesas"
-                  value={4000}
+                  value={expense}
                   buttonHide={true}
                   iconLabel={<AiOutlineFall size={30} />}
                   bgExpense={true}
@@ -257,6 +290,8 @@ export default function Control() {
                 <Input
                   placeholder="Valor da Receita"
                   label="Valor:"
+                  type={'number'}
+                  step="any"
                   mb="3px"
                   {...register('amount')}
                   error={formState.errors.amount}
@@ -292,7 +327,7 @@ export default function Control() {
                   <Chart
                     options={options}
                     series={series}
-                    type="area"
+                    type="heatmap"
                     width={'100%'}
                     height={210}
                   />
@@ -323,8 +358,8 @@ export default function Control() {
                       title: { text: 'Investimento' },
                     }}
                     series={[305, 589, 862, 852]}
-                    type="pie"
-                    width={300}
+                    type="donut"
+                    width={330}
                     height={490}
                   />
                 </Flex>

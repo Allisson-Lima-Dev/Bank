@@ -5,6 +5,7 @@
   .app {
     position: fixed;
     bottom: 0;
+    left: 0;
   }
 }
 @media (min-width: 1700px) {
