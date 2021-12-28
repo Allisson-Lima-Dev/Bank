@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Box,
   Flex,
@@ -29,10 +29,10 @@ import style from '~/styles/Home.module.css';
 import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-enum GenderEnum {
-  expense = 'Despesa',
-  revenue = 'Receita',
-  goal = 'Meta',
+declare global {
+  interface Window {
+    ApexCharts: typeof ApexCharts;
+  }
 }
 
 interface DataTransition {
@@ -51,7 +51,6 @@ export default function Control() {
 
   const shadow = useColorModeValue('lg', 'dark-lg');
 
-
   const [valuePerson, setValuePerson] = useState<any>('1');
 
   console.log(valuePerson);
@@ -66,9 +65,17 @@ export default function Control() {
     { id: 6, name: 'Show', amount: 92, type: 3 },
   ]);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    const saved = localStorage.getItem('Transations');
+    const storageV = saved !== null ? JSON.parse(saved) : '';
+    setLocal(storageV);
+  }, []);
   const initial = () => {};
 
   const generateId = () => Math.round(Math.random() * 1000);
+  const [local, setLocal] = useState<any>();
+  console.log(local);
 
   const handleTransition = (data: DataTransition) => {
     const transition = {
@@ -81,8 +88,10 @@ export default function Control() {
     console.log(transition);
     localStorage.setItem('Transations', JSON.stringify(total));
 
+    // console.log(pegar);
+
     setTotal([transition, ...total]);
-    initial();
+
   };
 
   const transationsAmounts = total.map((transition: any) => transition.amount);
@@ -108,13 +117,30 @@ export default function Control() {
     )
     .toFixed(2);
   const goal = total.filter((goal: any) => goal.type == 3);
-  const amountGoal = goal.map((goal: any) => goal.amount).reduce((accumulator: any, transaction: any) => accumulator + transaction,
-  0,)
+  const amountGoal = goal
+    .map((goal: any) => goal.amount)
+    .reduce(
+      (accumulator: any, transaction: any) => accumulator + transaction,
+      0,
+    );
 
   const valorPor = (amountGoal * 100) / 4000;
-  console.log(amountGoal);
+  const DateForm = () => {
+    const formt = (val: any) => (val < 10 ? `0${val}` : val);
 
-  console.log(ValueTotal);
+    const date = new Date();
+    const monthDay = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = formt(date.getSeconds());
+
+    return `${formt(hours)}:${minutes}:${seconds}`;
+  };
+  // console.log(amountGoal);
+
+  // console.log(ValueTotal);
 
   const [options, setOptions] = useState({
     chart: {
@@ -165,7 +191,6 @@ export default function Control() {
     },
   });
 
-
   const [series, setSeries] = useState([
     {
       name: 'Receitas',
@@ -181,11 +206,17 @@ export default function Control() {
     },
   ]);
 
+  useEffect(() => {
+    setInterval(() => {
+      income
+    }, 2000);
+  }, [series, income]);
+
   return (
     <Box>
       <Header financial={true} />
       <Layout>
-        <Box mx={'auto'} mt="85px" className={style.container}>
+        <Box mx={'auto'} className={style.container}>
           <Flex
             maxW={{ base: '100%', xl: 'container.xl' }}
             mx="auto"
@@ -378,21 +409,27 @@ export default function Control() {
                     borderRadius="20px"
                     boxShadow={shadow}
                     p={{ base: '10px', lg: '20px 15px' }}
+                    h="230px"
+                    overflowY={'scroll'}
+                    className={style.BoxScroll}
                   >
                     <Text>Histórico de Transações</Text>
                     <Flex></Flex>
                     {total &&
-                      total.map((item: any) => {
+                      total.map((item: any, key: any) => {
                         return (
-                          <CardHistory
-                            key={item.id}
-                            expense={item.type == 2 ? true : false}
-                            revenue={item.type == 1 ? true : false}
-                            goal={item.type == 3 ? true : false}
-                            type={item.type}
-                            name={item.name}
-                            value={Math.abs(item.amount)}
-                          />
+                          <Box key={key}>
+                            <CardHistory
+                              key={item.id}
+                              expense={item.type == 2 ? true : false}
+                              revenue={item.type == 1 ? true : false}
+                              goal={item.type == 3 ? true : false}
+                              type={item.type}
+                              name={item.name}
+                              date={DateForm()}
+                              value={Math.abs(item.amount)}
+                            />
+                          </Box>
                         );
                       })}
                   </Box>

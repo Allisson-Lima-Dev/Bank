@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Text } from '@chakra-ui/react';
-import { theme } from '~/styles/theme';
 import dynamic from 'next/dynamic';
 
 const ChartApex = dynamic(() => import('react-apexcharts'), {

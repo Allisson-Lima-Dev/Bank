@@ -53,7 +53,7 @@ export function CardHistory({
           justifyContent={'space-between'}
         >
           <Text
-            fontSize={{ base: '11px', lg: '13px' }}
+            fontSize={{ base: '11px', lg: '8px' }}
             mr={{ base: '5px', lg: '' }}
           >
             {date}
