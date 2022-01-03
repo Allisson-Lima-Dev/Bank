@@ -17,6 +17,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { BiShow, BiHide } from 'react-icons/bi';
+import { AuthContext } from '~/context/AuthContext';
 // import { AuthContext } from "~/contexts/AuthContext";
 // import { ViewOffIcon, ViewIcon } from '@chakra-ui/icons';
 
@@ -34,11 +35,11 @@ function Login() {
   const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(signInFormSchema),
   });
-  // const { signIn } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const handleClickPassword = () => setShowPassword(!showPassword);
+  const { signIn } = useContext(AuthContext);
 
   async function handleSignIn(data: SignInFormData) {
     // setIsLoading(true);
@@ -51,8 +52,18 @@ function Login() {
     //     isClosable: true,
     //   });
     //});
-    console.log(data);
+    setIsLoading(true);
+
+    await signIn(data).catch((err) => {
+      toast({
+        title: err.message,
+        status: 'error',
+        variant: 'solid',
+        isClosable: true,
+      });
+    });
   }
+  console.log(isLoading);
 
   return (
     <Container minW={'full'} h={{ base: '', xl: '100vh' }} p="0">

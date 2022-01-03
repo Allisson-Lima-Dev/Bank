@@ -8,6 +8,14 @@ import {
   useColorModeValue,
   useColorMode,
   Button,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Modal,
+  useDisclosure,
 } from '@chakra-ui/react';
 import {
   AiOutlineFall,
@@ -91,7 +99,6 @@ export default function Control() {
     // console.log(pegar);
 
     setTotal([transition, ...total]);
-
   };
 
   const transationsAmounts = total.map((transition: any) => transition.amount);
@@ -208,9 +215,11 @@ export default function Control() {
 
   useEffect(() => {
     setInterval(() => {
-      income
+      income;
     }, 2000);
   }, [series, income]);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box>
@@ -502,6 +511,27 @@ export default function Control() {
             </Box>
           </Flex>
         </Box>
+        <Button onClick={onOpen}>Open</Button>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent as="form">
+            <ModalHeader>Novo Usuário</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Input name="name" label="Nome" mb="10px" />
+              <Input name="rg" label="RG" mb="10px" />
+              <Input name="email" label="E-mail" mb="10px" />
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={onClose}>
+                Cancelar
+              </Button>
+              <Button variant="ghost" type="submit">
+                Cadastrar
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Layout>
     </Box>
   );

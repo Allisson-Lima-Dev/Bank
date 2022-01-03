@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -10,11 +10,25 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { ColorModeSwitcher, Layout, Header } from '~/components';
+import { AuthContext } from '~/context/AuthContext';
+import { api } from '~/services/api';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
+import { recoverUserInformation } from '~/services/hooks/useAuth';
+
+type User = {
+  _id: string;
+  name: string;
+  username: string;
+  email: string;
+};
 
 export default function Home() {
   const { toggleColorMode } = useColorMode();
   const color = useColorModeValue('red', 'yellow.800');
   const shadow = useColorModeValue('lg', 'dark-lg');
+
+  const { handleId, setIsLoading, isLoading, user } = useContext(AuthContext);
 
   return (
     <Box>
@@ -33,7 +47,7 @@ export default function Home() {
             flexDir={{ base: 'column-reverse', lg: 'row' }}
           >
             <Box w={{ base: '100%', lg: '70%' }} mt="50px">
-              <Heading mb="20px">Seja bem-vindo</Heading>
+              <Heading mb="20px">Seja bem-vindo {user?.name}</Heading>
               <Text w={{ base: '100%', lg: '90%' }}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Voluptates eveniet rem voluptate nesciunt quos iste consequatur
@@ -64,3 +78,20 @@ export default function Home() {
     </Box>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['nextauth.token']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
