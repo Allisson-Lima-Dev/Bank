@@ -5,11 +5,12 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { Box, Flex, Spinner } from '@chakra-ui/react';
 import {
   recoverUserInformation,
   signInRequest,
 } from '~/services/hooks/useAuth';
-import { setCookie, parseCookies } from 'nookies';
+import { setCookie, parseCookies, destroyCookie } from 'nookies';
 import Router from 'next/router';
 import { api } from '~/services/api';
 
@@ -53,10 +54,23 @@ export function AuthProvider({ children }: Component) {
     setIsLoading(false);
   }, []);
 
-    const Logout = () => {
-      setUser(null);
-      localStorage.removeItem('User')
+  const Logout = async () => {
+    setIsLoading(true);
+
+    setUser(null);
+    localStorage.removeItem('User');
+    const storagedUser = localStorage.getItem('User');
+    if (!storagedUser) {
+      destroyCookie(undefined, 'nextauth.token');
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      };
     }
+    setIsLoading(false);
+  };
 
   async function signIn({ email, password }: SignInData) {
     const { token, id, user } = await signInRequest({
@@ -78,7 +92,13 @@ export function AuthProvider({ children }: Component) {
   }
 
   if (isLoading) {
-    return <h1>carregando....</h1>;
+    return (
+      <Box bg="red.700" h="100vh">
+        <Flex justify={'center'} h="100%">
+          <Spinner size={'xs'} w={'20%'} h="20%" color="red" />
+        </Flex>
+      </Box>
+    );
   }
 
   return (
@@ -87,7 +107,7 @@ export function AuthProvider({ children }: Component) {
         user,
         isAuthenticated,
         signIn,
-        Logout
+        Logout,
       }}
     >
       {children}

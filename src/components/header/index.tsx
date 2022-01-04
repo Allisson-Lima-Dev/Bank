@@ -30,7 +30,15 @@ export function Header({ financial, home, config, doubt }: Menu) {
   const colorHeader = useColorModeValue('#fff', '');
   const bg = useColorModeValue('#1f9ce4', '#1f9ce4');
 
-  const { user } = useContext(AuthContext);
+  const { user, Logout } = useContext(AuthContext);
+
+  const delay = (amount = 750) =>
+    new Promise((resolve) => setTimeout(resolve, amount));
+  const handleLogout = async () => {
+    Logout();
+    window.location.reload();
+    await delay();
+  };
 
   return (
     <div
@@ -100,7 +108,7 @@ export function Header({ financial, home, config, doubt }: Menu) {
                   <ColorModeSwitcher />
                 </Box>
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={handleLogout}>
                 <FiLogOut color="#fff" size={'20px'} />
                 <Text ml="15px">Sair</Text>
               </MenuItem>

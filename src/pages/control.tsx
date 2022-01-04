@@ -35,6 +35,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import style from '~/styles/Home.module.css';
 import dynamic from 'next/dynamic';
+import { parseCookies } from 'nookies';
+import { GetServerSideProps } from 'next';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 declare global {
@@ -534,3 +536,19 @@ export default function Control() {
     </Box>
   );
 }
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['nextauth.token']: token } = parseCookies(ctx);
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
