@@ -1,15 +1,30 @@
 import React, { useContext } from 'react';
-import { Box, Flex, Image, Text, useColorModeValue } from '@chakra-ui/react';
-import { Menu, ColorModeSwitcher } from '~/components';
+import {
+  Box,
+  Flex,
+  Image,
+  Text,
+  useColorModeValue,
+  Menu,
+  MenuList,
+  MenuButton,
+  MenuItem,
+  MenuDivider,
+} from '@chakra-ui/react';
+import { BiChevronDown } from 'react-icons/bi';
+import { FiLogOut } from 'react-icons/fi';
+import { MenuBottom, ColorModeSwitcher } from '~/components';
 import { UseHideMenu } from '~/services/hooks/useHideMenu';
 import { Logo } from './logo';
 import { AuthContext } from '~/context/AuthContext';
+
 interface Menu {
   home?: boolean;
   financial?: boolean;
   config?: boolean;
   doubt?: boolean;
 }
+
 export function Header({ financial, home, config, doubt }: Menu) {
   const hide = UseHideMenu();
   const colorHeader = useColorModeValue('#fff', '');
@@ -43,7 +58,12 @@ export function Header({ financial, home, config, doubt }: Menu) {
         display={{ base: hide == 'flex' ? 'flex' : 'none', lg: 'flex' }}
       >
         <Logo />
-        <Menu config={config} doubt={doubt} financial={financial} home={home} />
+        <MenuBottom
+          config={config}
+          doubt={doubt}
+          financial={financial}
+          home={home}
+        />
         <Flex
           align="center"
           justify={{ base: 'right', lg: 'center' }}
@@ -56,15 +76,39 @@ export function Header({ financial, home, config, doubt }: Menu) {
             w={{ base: '35px', lg: '40px' }}
             mr={{ base: '3px', lg: '15px' }}
           />
-          <Text
-            mr="2px"
-            w="70px"
-            display={{ base: 'none', md: 'flex' }}
-            fontSize={'12px'}
-          >
-            {user?.name}
-          </Text>
-          <ColorModeSwitcher />
+          <Menu>
+            <MenuButton
+              transition="all 0.2s"
+              borderRadius="md"
+              _hover={{ bg: 'gray.400' }}
+              _expanded={{ bg: 'blue.400' }}
+              _focus={{ boxShadow: 'outline' }}
+              w="70px"
+              fontSize={'12px'}
+            >
+              <Flex justify={'center'} alignItems={'center'}>
+                {user?.username}
+                <BiChevronDown />
+              </Flex>
+            </MenuButton>
+            <MenuList>
+              <MenuItem>New File</MenuItem>
+              <MenuItem>New Window</MenuItem>
+              <MenuDivider />
+              <MenuItem>
+                <Box display={{ base: 'flex', md: 'none' }}>
+                  <ColorModeSwitcher />
+                </Box>
+              </MenuItem>
+              <MenuItem>
+                <FiLogOut color="#fff" size={'20px'} />
+                <Text ml="15px">Sair</Text>
+              </MenuItem>
+            </MenuList>
+          </Menu>
+          <Box display={{ base: 'none', md: 'flex' }}>
+            <ColorModeSwitcher />
+          </Box>
         </Flex>
       </Flex>
     </div>

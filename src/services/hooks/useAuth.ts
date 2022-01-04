@@ -20,11 +20,9 @@ type SignInRequestData = {
 let getId: any;
 
 export async function signInRequest(signin: SignInRequestData) {
-  // await delay();
+
 
   const { data } = await api.post('login', signin);
-
-  const { 'nextauth.token': token } = parseCookies();
 
   const { id } = parseJwt(data.token);
   getId = id;
@@ -35,20 +33,10 @@ export async function signInRequest(signin: SignInRequestData) {
     result: data.result,
     user: data.userV,
     id: id,
-
-    // token: uuid(),
-    // user: {
-    //   name: 'Allisson Lima',
-    //   email: 'allisson@gmail.com',
-    //   avatar_url: 'https://github.com/allisson-lima-dev.png',
-    // },
   };
 }
 
 export async function recoverUserInformation() {
-  // const { 'nextauth.token': token } = parseCookies();
-
-  // api.defaults.headers['Authorization'] = `Bearer ${token}`;
 
   try {
     const { data } = await api.get(`/user/61d04546ebf004c3f7439a5f`);

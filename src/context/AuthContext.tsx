@@ -31,11 +31,9 @@ type User = {
 
 type AuthContextType = {
   isAuthenticated: boolean;
-  isLoading: boolean;
-  setIsLoading: any;
   user: User | null;
-  handleId: any;
   signIn: (data: SignInData) => Promise<void>;
+  Logout(): void;
 };
 
 export const AuthContext = createContext({} as AuthContextType);
@@ -55,6 +53,11 @@ export function AuthProvider({ children }: Component) {
     setIsLoading(false);
   }, []);
 
+    const Logout = () => {
+      setUser(null);
+      localStorage.removeItem('User')
+    }
+
   async function signIn({ email, password }: SignInData) {
     const { token, id, user } = await signInRequest({
       email,
@@ -64,7 +67,7 @@ export function AuthProvider({ children }: Component) {
       maxAge: 60 * 60 * 1, // 1 hour
     });
 
-    api.defaults.headers['Authorization'] = `Bearer ${token}`;
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     setHandleId(id);
 
     localStorage.setItem('User', JSON.stringify(user));
@@ -84,9 +87,7 @@ export function AuthProvider({ children }: Component) {
         user,
         isAuthenticated,
         signIn,
-        handleId,
-        isLoading,
-        setIsLoading,
+        Logout
       }}
     >
       {children}

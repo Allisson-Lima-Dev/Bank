@@ -16,7 +16,7 @@ interface Menu {
   doubt?: boolean;
 }
 
-export function Menu({ financial, home, config, doubt }: Menu) {
+export function MenuBottom({ financial, home, config, doubt }: Menu) {
   const hide = UseHideMenu();
   const bgMenu = useColorModeValue('#fff', '#1a202c');
   const color = useColorModeValue('#b1c4cf', '#315d76');

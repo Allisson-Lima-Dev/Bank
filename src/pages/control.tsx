@@ -96,8 +96,6 @@ export default function Control() {
     console.log(transition);
     localStorage.setItem('Transations', JSON.stringify(total));
 
-    // console.log(pegar);
-
     setTotal([transition, ...total]);
   };
 

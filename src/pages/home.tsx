@@ -28,7 +28,17 @@ export default function Home() {
   const color = useColorModeValue('red', 'yellow.800');
   const shadow = useColorModeValue('lg', 'dark-lg');
 
-  const { handleId, setIsLoading, isLoading, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    const get = async () => {
+      const { data } = await api.get(
+        'https://bank-server-financial.herokuapp.com',
+      );
+      alert(data.result);
+    };
+    get();
+  }, []);
 
   return (
     <Box>
