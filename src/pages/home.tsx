@@ -15,6 +15,7 @@ import { api } from '~/services/api';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { recoverUserInformation } from '~/services/hooks/useAuth';
+import Lottie from 'react-lottie';
 
 type User = {
   _id: string;
@@ -28,6 +29,19 @@ export default function Home() {
   const color = useColorModeValue('red', 'yellow.800');
   const shadow = useColorModeValue('lg', 'dark-lg');
 
+  const [animation, setAnimation] = useState({
+    isStopped: false,
+    isPaused: false,
+  });
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: require('../lottie/splash.json.json'),
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
+
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -35,7 +49,7 @@ export default function Home() {
       const { data } = await api.get(
         'https://bank-server-financial.herokuapp.com',
       );
-      alert(data.result);
+      // alert(data.result);
     };
     get();
   }, []);
@@ -52,6 +66,13 @@ export default function Home() {
           boxShadow={shadow}
           p={{ base: '15px', lg: '40px' }}
         >
+          {/* <Lottie
+            options={defaultOptions}
+            height={400}
+            width={400}
+            isStopped={animation.isStopped}
+            isPaused={animation.isPaused}
+          /> */}
           <Flex
             justify="space-between"
             flexDir={{ base: 'column-reverse', lg: 'row' }}

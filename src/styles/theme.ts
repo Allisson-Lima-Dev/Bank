@@ -21,6 +21,7 @@ const theme = extendTheme({
         bg: mode('##F8F8F8', 'gray.800')(props),
         lineHeight: 'base',
       },
+      
     }),
   },
 });

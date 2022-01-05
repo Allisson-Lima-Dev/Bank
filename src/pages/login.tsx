@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { GetServerSideProps } from 'next';
+import Lottie from 'react-lottie';
 import Image from 'next/image';
 import {
   Flex,
@@ -11,6 +12,7 @@ import {
   Icon,
   InputGroup,
   InputRightElement,
+  Box,
 } from '@chakra-ui/react';
 import { Input } from '~/components';
 import { useForm } from 'react-hook-form';
@@ -41,6 +43,19 @@ function Login() {
   const handleClickPassword = () => setShowPassword(!showPassword);
   const { signIn } = useContext(AuthContext);
 
+  const [animation, setAnimation] = useState({
+    isStopped: false,
+    isPaused: false,
+  });
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: require('../lottie/login.json'),
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
+
   async function handleSignIn(data: SignInFormData) {
     // setIsLoading(true);
     // await signIn(data).catch((err: { message: any; }) => {
@@ -68,15 +83,16 @@ function Login() {
   return (
     <Container minW={'full'} h={{ base: '', xl: '100vh' }} p="0">
       <Flex h={'full'} flexDir={'row-reverse'}>
-        <Flex flex={1} w="full" display={['none', 'none', 'flex']}>
-          <Image
-            alt="back_image"
-            src="/assets/images/Lofo.png"
-            objectFit="cover"
-            layout="intrinsic"
-            width={3000}
-            height={3000}
-          />
+        <Flex flex={1} w="full" h="100%" display={['none', 'none', 'flex']}>
+          <Flex justify={'center'} align={'center'}>
+            <Lottie
+              options={defaultOptions}
+              height={'65%'}
+              width={'100%'}
+              isStopped={animation.isStopped}
+              isPaused={animation.isPaused}
+            />
+          </Flex>
         </Flex>
         <Container
           flex={1}

@@ -3,9 +3,11 @@ import {
   ReactChild,
   ReactChildren,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { Box, Flex, Spinner } from '@chakra-ui/react';
+import Lottie from 'react-lottie';
 import {
   recoverUserInformation,
   signInRequest,
@@ -42,8 +44,22 @@ export const AuthContext = createContext({} as AuthContextType);
 export function AuthProvider({ children }: Component) {
   const [handleId, setHandleId] = useState();
   const [user, setUser] = useState<User | any>();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const isAuthenticated = !!user;
+
+  const [animation, setAnimation] = useState({
+    isStopped: false,
+    isPaused: false,
+  });
+  const defaultOptions = {
+    loop: false,
+    autoplay: true,
+    animationData: require('../lottie/splash.json.json'),
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
+  const container = useRef(null);
 
   useEffect(() => {
     const { 'nextauth.token': token } = parseCookies();
@@ -51,12 +67,15 @@ export function AuthProvider({ children }: Component) {
     if (token && storagedUser) {
       setUser(JSON.parse(storagedUser));
     }
+
     setIsLoading(false);
   }, []);
 
   const Logout = async () => {
     setIsLoading(true);
-
+    setTimeout(() => {
+      window.location.reload();
+    }, 3200);
     setUser(null);
     localStorage.removeItem('User');
     const storagedUser = localStorage.getItem('User');
@@ -87,17 +106,33 @@ export function AuthProvider({ children }: Component) {
     localStorage.setItem('User', JSON.stringify(user));
 
     setUser(user);
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3300);
 
     Router.push('/home');
   }
 
   if (isLoading) {
     return (
-      <Box bg="red.700" h="100vh">
-        <Flex justify={'center'} h="100%">
-          <Spinner size={'xs'} w={'20%'} h="20%" color="red" />
-        </Flex>
-      </Box>
+      <Flex
+        justify={'center'}
+        align={'center'}
+        p="0"
+        bg={''}
+        h="90vh"
+        my="auto"
+      >
+        <Lottie
+          options={defaultOptions}
+          height={400}
+          width={400}
+          isStopped={animation.isStopped}
+          isPaused={animation.isPaused}
+        />
+      </Flex>
     );
   }
 

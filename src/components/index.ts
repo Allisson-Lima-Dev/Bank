@@ -6,6 +6,7 @@ import { Header } from './header';
 import { Select } from './select';
 import { CardValues } from './cards/cardValues';
 import { CardHistory } from './cards/cardHistory';
+import { MenuDashboard } from './menuDashboard';
 
 export {
   ColorModeSwitcher,
@@ -15,5 +16,6 @@ export {
   Header,
   CardValues,
   Select,
-  CardHistory
+  CardHistory,
+  MenuDashboard,
 };

@@ -35,9 +35,10 @@ export function Header({ financial, home, config, doubt }: Menu) {
   const delay = (amount = 750) =>
     new Promise((resolve) => setTimeout(resolve, amount));
   const handleLogout = async () => {
+    
     Logout();
-    window.location.reload();
-    await delay();
+
+    delay(3000);
   };
 
   return (
