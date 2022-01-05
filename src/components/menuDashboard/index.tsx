@@ -3,11 +3,19 @@ import { Flex, Box, Text } from '@chakra-ui/react';
 
 export function MenuDashboard() {
   return (
-    <Box mt="70px" bg="#F7F7F7">
-      <Text>Dashboard</Text>
-      <Text>Dashboard</Text>
-      <Text>Dashboard</Text>
-      <Text>Dashboard</Text>
+    <Box bg="#001933">
+      <Flex>
+        <Text>Home</Text>
+      </Flex>
+      <Flex>
+        <Text>Dashboard</Text>
+      </Flex>
+      <Flex>
+        <Text>Transação</Text>
+      </Flex>
+      <Flex>
+        <Text>Histórico</Text>
+      </Flex>
     </Box>
   );
 }

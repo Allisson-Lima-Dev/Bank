@@ -35,7 +35,7 @@ export function Header({ financial, home, config, doubt }: Menu) {
   const delay = (amount = 750) =>
     new Promise((resolve) => setTimeout(resolve, amount));
   const handleLogout = async () => {
-    
+
     Logout();
 
     delay(3000);
@@ -58,12 +58,9 @@ export function Header({ financial, home, config, doubt }: Menu) {
         h={{ base: '60px', lg: 20 }}
         px={{ base: '3', lg: '7' }}
         align="center"
-        // bg={bg}
         color={colorHeader}
         mt="-4px"
-        // top={0}
         justifyContent={{ base: 'space-between', lg: '' }}
-        // pos="fixed"
         display={{ base: hide == 'flex' ? 'flex' : 'none', lg: 'flex' }}
       >
         <Logo />

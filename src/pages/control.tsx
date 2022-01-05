@@ -224,7 +224,7 @@ export default function Control() {
 
   return (
     <Box>
-      <Header financial={true} />
+      {/* <Header financial={true} /> */}
       <Flex h="100vh" overflowY={'hidden'}>
         <MenuDashboard />
         <Layout>
