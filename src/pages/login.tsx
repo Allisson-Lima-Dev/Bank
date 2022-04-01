@@ -68,6 +68,8 @@ function Login() {
     //   });
     //});
     setIsLoading(true);
+    console.log(data);
+
 
     await signIn(data).catch((err) => {
       toast({

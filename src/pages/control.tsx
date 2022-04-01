@@ -146,9 +146,6 @@ export default function Control() {
 
     return `${formt(hours)}:${minutes}:${seconds}`;
   };
-  // console.log(amountGoal);
-
-  // console.log(ValueTotal);
 
   const [options, setOptions] = useState({
     chart: {
