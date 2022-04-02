@@ -73,7 +73,7 @@ export default function Control() {
     { id: 2, name: 'Moto', amount: 612, type: 1 },
     { id: 3, name: 'Viagem', amount: -252, type: 2 },
     { id: 4, name: 'aniversario', amount: 62, type: 3 },
-    { id: 6, name: 'Te falei que vc ia conseguir', amount: 10, type: 3 },
+    { id: 6, name: 'Versão 2', amount: 92, type: 3 },
   ]);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -98,6 +98,8 @@ export default function Control() {
 
     console.log(transition);
     localStorage.setItem('Transations', JSON.stringify(total));
+
+    // console.log(pegar);
 
     setTotal([transition, ...total]);
   };
@@ -146,6 +148,12 @@ export default function Control() {
 
     return `${formt(hours)}:${minutes}:${seconds}`;
   };
+<<<<<<< HEAD
+=======
+  // console.log(amountGoal);
+
+  // console.log(ValueTotal);
+>>>>>>> feature
 
   const [options, setOptions] = useState({
     chart: {
@@ -216,6 +224,117 @@ export default function Control() {
       income;
     }, 2000);
   }, [series, income]);
+<<<<<<< HEAD
+=======
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  return (
+    <Box>
+      <Header financial={true} />
+      <Layout>
+        <Box mx={'auto'} className={style.container}>
+          <Flex
+            maxW={{ base: '100%', xl: 'container.xl' }}
+            mx="auto"
+            justifyContent={'space-between'}
+            flexDir={{ base: 'column', lg: 'row' }}
+          >
+            <Box>
+              <Flex
+                justifyContent={'space-between'}
+                flexDir={{ base: 'column', lg: 'row' }}
+                w={{ base: '95%', lg: '100%' }}
+                mx={'auto'}
+              >
+                <CardValues
+                  widthCard="100%"
+                  title="Saldo Atual"
+                  value={ValueTotal}
+                  buttonHide={false}
+                />
+                <CardValues
+                  widthCard="100%"
+                  title="receita"
+                  value={income}
+                  buttonHide={true}
+                  iconLabel={<AiOutlineRise size={30} />}
+                  bgRevenue={true}
+                  borderRadiusBg={true}
+                  ml={{ base: '', lg: '5px' }}
+                />
+              </Flex>
+              <Flex
+                mt={{ base: '', lg: '20px' }}
+                w={{ base: '95%', lg: '100%' }}
+                mx={'auto'}
+                flexDir={{ base: 'column', lg: 'row' }}
+              >
+                <CardValues
+                  title="despesas"
+                  value={expense}
+                  buttonHide={true}
+                  iconLabel={<AiOutlineFall size={30} />}
+                  bgExpense={true}
+                  borderRadiusBg={true}
+                  widthCard="100%"
+                />
+                <CardValues
+                  title="Investimento"
+                  ml={{ base: '', lg: '5px' }}
+                  value={4000}
+                  buttonHide={true}
+                  iconLabel={<AiOutlineBarChart size={30} />}
+                  bgInvestment={true}
+                  borderRadiusBg={true}
+                  widthCard="100%"
+                />
+              </Flex>
+              <Box
+                as="form"
+                onSubmit={handleSubmit(handleTransition)}
+                w={{ base: '95%', lg: '400px' }}
+                mx={'auto'}
+                borderRadius="20px"
+                boxShadow={shadow}
+                p={{ base: '15px', lg: '8px 15px' }}
+              >
+                <Select
+                  label="Transação:"
+                  defaultValue={1}
+                  mb="3px"
+                  {...register('type')}
+                  onClick={() => setValuePerson(getValues('type'))}
+                  // onChange={(e: any) => setValuePerson(e.target.value)}
+                >
+                  <option value={1}>Receita</option>
+                  <option value={2}>Despesas</option>
+                  <option value={3}>Meta</option>
+                </Select>
+                <Input
+                  placeholder={
+                    valuePerson == '3'
+                      ? 'Nome da Meta'
+                      : valuePerson == '2'
+                      ? 'Nome da Despesa'
+                      : valuePerson == '1'
+                      ? 'Nome da Receita'
+                      : ''
+                  }
+                  label={
+                    valuePerson == '3'
+                      ? 'Meta'
+                      : valuePerson == '2'
+                      ? 'Despesa'
+                      : valuePerson == '1'
+                      ? 'Receita'
+                      : ''
+                  }
+                  mb="3px"
+                  {...register('name')}
+                  error={formState.errors.name}
+                />
+>>>>>>> feature
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -358,6 +477,7 @@ export default function Control() {
                     mx="auto"
                     borderRadius="20px"
                     boxShadow={shadow}
+<<<<<<< HEAD
                     p={{ base: '15px', lg: '10px' }}
                     mr={{ base: '', lg: '20px' }}
                     h="240px"
@@ -369,6 +489,32 @@ export default function Control() {
                       width={'100%'}
                       height={210}
                     />
+=======
+                    p={{ base: '10px', lg: '20px 15px' }}
+                    h="230px"
+                    overflowY={'scroll'}
+                    className={style.BoxScroll}
+                  >
+                    <Text>Histórico de Transações</Text>
+                    <Flex></Flex>
+                    {total &&
+                      total.map((item: any, key: any) => {
+                        return (
+                          <Box key={key}>
+                            <CardHistory
+                              key={item.id}
+                              expense={item.type == 2 ? true : false}
+                              revenue={item.type == 1 ? true : false}
+                              goal={item.type == 3 ? true : false}
+                              type={item.type}
+                              name={item.name}
+                              date={DateForm()}
+                              value={Math.abs(item.amount)}
+                            />
+                          </Box>
+                        );
+                      })}
+>>>>>>> feature
                   </Box>
                   <Flex
                     w={{ base: '95%', lg: 'auto' }}
@@ -505,11 +651,40 @@ export default function Control() {
                     </Box>
                   </Flex>
                 </Flex>
+<<<<<<< HEAD
               </Box>
             </Flex>
           </Box>
         </Layout>
       </Flex>
+=======
+              </Flex>
+            </Box>
+          </Flex>
+        </Box>
+        <Button onClick={onOpen}>Open</Button>
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent as="form">
+            <ModalHeader>Novo Usuário</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Input name="name" label="Nome" mb="10px" />
+              <Input name="rg" label="RG" mb="10px" />
+              <Input name="email" label="E-mail" mb="10px" />
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={onClose}>
+                Cancelar
+              </Button>
+              <Button variant="ghost" type="submit">
+                Cadastrar
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Layout>
+>>>>>>> feature
     </Box>
   );
 }
