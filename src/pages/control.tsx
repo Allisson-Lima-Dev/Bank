@@ -73,7 +73,7 @@ export default function Control() {
     { id: 2, name: 'Moto', amount: 612, type: 1 },
     { id: 3, name: 'Viagem', amount: -252, type: 2 },
     { id: 4, name: 'aniversario', amount: 62, type: 3 },
-    { id: 6, name: 'Show', amount: 95, type: 3 },
+    { id: 6, name: 'Melhor', amount: 15, type: 3 },
   ]);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
