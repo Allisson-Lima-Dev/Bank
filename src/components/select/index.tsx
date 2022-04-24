@@ -1,29 +1,48 @@
-import React, { forwardRef, ForwardRefRenderFunction, ReactNode } from "react";
+import React, { forwardRef, ForwardRefRenderFunction, ReactNode } from 'react';
 import {
   FormControl,
   FormErrorMessage,
   FormLabel,
   Select as ChakraSelect,
   SelectProps as ChakraSelectProps,
-} from "@chakra-ui/react";
-import { FieldError } from "react-hook-form";
+} from '@chakra-ui/react';
+import { FieldError } from 'react-hook-form';
 
 interface SelectProps extends ChakraSelectProps {
   name: string;
   label?: string;
+  colorLabel?: string;
+  widthDefault?: any;
   error?: FieldError;
   disabled?: boolean;
   children: ReactNode;
+  labelFontSize?: string;
 }
 
 const SelectBase: ForwardRefRenderFunction<HTMLSelectElement, SelectProps> = (
-  { name, label, error, disabled, children, ...rest },
-  ref
+  {
+    name,
+    label,
+    colorLabel,
+    widthDefault,
+    error,
+    disabled,
+    labelFontSize,
+    children,
+    ...rest
+  },
+  ref,
 ) => {
   return (
-    <FormControl isInvalid={!!error}>
+    <FormControl isInvalid={!!error} w={widthDefault || 'full'}>
       {!!label && (
-        <FormLabel fontWeight="bold" htmlFor={name}>
+        <FormLabel
+          fontWeight="bold"
+          htmlFor={name}
+          color={colorLabel || '#000'}
+          fontSize={labelFontSize}
+          mr="0"
+        >
           {label}
         </FormLabel>
       )}

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Box,
   Drawer,
@@ -9,49 +8,46 @@ import {
   DrawerOverlay,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { useSidebarDrawer } from '~/contexts/SidebarDrawerContext';
+import React from 'react';
+// import { useSidebarDrawer } from "../../contexts/SidebarDrawerContext";
 
-import { SidebarNav } from './sidebarNav';
+import { SidebarNav } from './SidebarNav';
 
-type SideBarProps = {
-  user_type: string
-}
-
-export function Sidebar({user_type}: SideBarProps) {
-  const { isOpen, onClose } = useSidebarDrawer();
+export default function Sidebar() {
+  // const { isOpen, onClose } = useSidebarDrawer();
 
   const isDrawerSidebar = useBreakpointValue({
-    base: false,
+    base: true,
     lg: false,
   });
 
-  if (isDrawerSidebar) {
-    return (
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-        <DrawerOverlay>
-          <DrawerContent bg="gray.800" p="4">
-            <DrawerCloseButton mt="6" />
-            <DrawerHeader>Navegação</DrawerHeader>
-            <DrawerBody>
-              <SidebarNav user_type={user_type} />
-            </DrawerBody>
-          </DrawerContent>
-        </DrawerOverlay>
-      </Drawer>
-    );
-  }
+  // if (isDrawerSidebar) {
+  //   return (
+  //     <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+  //       <DrawerOverlay>
+  //         <DrawerContent bg="gray.800" p="4">
+  //           <DrawerCloseButton mt="6" />
+  //           <DrawerHeader>Navegação</DrawerHeader>
+  //           <DrawerBody>
+  //             <SidebarNav />
+  //           </DrawerBody>
+  //         </DrawerContent>
+  //       </DrawerOverlay>
+  //     </Drawer>
+  //   );
+  // }
 
   return (
     <Box
+      display={{ base: 'none', lg: 'flex' }}
       as="aside"
-      w={['full', 'full', '64']}
-      pos={['fixed', 'fixed', 'relative']}
-      zIndex="1"
-      bottom={[0, 0]}
-      left={[0, 0]}
-      bg={['primary', 'primary', 'transparent']}
+      w="200px"
+      // pl="20px"
+      // mr="8"
+      bg="#171923"
+      borderRight={`1px solid #2C3045`}
     >
-      <SidebarNav user_type={user_type} />
+      <SidebarNav />
     </Box>
   );
 }

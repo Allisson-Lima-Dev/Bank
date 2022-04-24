@@ -1,4 +1,8 @@
-
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
 .app {
   width: 100%;
 }
@@ -10,7 +14,7 @@
   border-radius: 20px;
 }
 .container{
-  margin-top: 85px;
+  /* margin-top: 85px; */
 }
 @media (max-width: 994px) {
   .app {
@@ -25,6 +29,6 @@
     border-radius: 20px;
     padding: 50px;
     width: 80%;
-    margin-top: 170px;
+    /* margin-top: 170px; */
   }
 }

@@ -7,9 +7,11 @@ import { Select } from './select';
 import { CardValues } from './cards/cardValues';
 import { CardHistory } from './cards/cardHistory';
 import { MenuDashboard } from './menuDashboard';
+import { Card } from './cards/cardStatus';
 
 export {
   ColorModeSwitcher,
+  Card,
   MenuBottom,
   Layout,
   Input,

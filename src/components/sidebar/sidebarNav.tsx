@@ -1,44 +1,32 @@
-import React from 'react';
 import { Stack } from '@chakra-ui/react';
+import React from 'react';
 import {
   RiContactsLine,
   RiDashboardLine,
-  RiGroupLine,
-  RiHotelLine,
+  RiGitMergeLine,
+  RiInputMethodLine,
 } from 'react-icons/ri';
-import { NavLink } from './navLink';
-import { NavSection } from './navSection';
+import { NavLink } from './NavLink';
+import { NavSection } from './NavSection';
 
-type SideBarNavProps = {
-  user_type: string
-}
-
-export function SidebarNav({user_type}: SideBarNavProps) {
+export function SidebarNav() {
   return (
-    <Stack spacing="12" align="flex-start" w="full">
+    <Stack spacing="12" align="flex-start" w="full" textDecor={'none'}>
       <NavSection title="GERAL">
-        <NavLink icon={RiDashboardLine} href={"/"+user_type+"/home"}>
+        <NavLink icon={RiDashboardLine} href="/Dashboard">
           Dasboard
         </NavLink>
-        <NavLink icon={RiHotelLine} href={"/"+user_type+"/enterprises"}>
-          Empreendimentos
+        <NavLink icon={RiContactsLine} href="/Register">
+          Usuários
         </NavLink>
-        <NavLink icon={RiContactsLine} href={"/"+user_type+"/proposals"}>
-          Propostas
+      </NavSection>
+      <NavSection title="AUTOMAÇÃO">
+        <NavLink icon={RiInputMethodLine} href="/Dashboard/Transition">
+          Formulários
         </NavLink>
-        { user_type === "select" && (
-          <>
-            <NavLink icon={RiGroupLine} href={"/"+user_type+"/customers"}>
-              Clientes
-            </NavLink>
-            <NavLink icon={RiContactsLine} href={"/"+user_type+"/brokers"}>
-              Imobiliárias
-            </NavLink>
-            <NavLink icon={RiContactsLine} href={"/"+user_type+"/realEstates"}>
-              Incorporadoras
-            </NavLink>
-          </>
-        )}
+        <NavLink icon={RiGitMergeLine} href="/automation">
+          Automação
+        </NavLink>
       </NavSection>
     </Stack>
   );

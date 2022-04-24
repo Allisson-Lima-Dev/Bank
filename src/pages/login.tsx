@@ -57,19 +57,18 @@ function Login() {
   };
 
   async function handleSignIn(data: SignInFormData) {
-    // setIsLoading(true);
-    // await signIn(data).catch((err: { message: any; }) => {
-    //   setIsLoading(false);
-    //   toast({
-    //     title: err.message,
-    //     status: "error",
-    //     variant: "solid",
-    //     isClosable: true,
-    //   });
-    //});
+    setIsLoading(true);
+    await signIn(data).catch((err: { message: any }) => {
+      setIsLoading(false);
+      toast({
+        title: err.message,
+        status: 'error',
+        variant: 'solid',
+        isClosable: true,
+      });
+    });
     setIsLoading(true);
     console.log(data);
-
 
     await signIn(data).catch((err) => {
       toast({
@@ -207,12 +206,12 @@ function Login() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const props = {};
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   const props = {};
 
-  return {
-    props,
-  };
-};
+//   return {
+//     props,
+//   };
+// };
 
 export default Login;
