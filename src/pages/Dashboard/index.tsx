@@ -325,7 +325,7 @@ export default function index() {
                   options={{
                     chart: {
                       background: 'rgba(0, 0, 0, 0)',
-                      height: 350,
+                      // height: 350,
                       type: 'bar',
                     },
                     plotOptions: {
@@ -364,7 +364,7 @@ export default function index() {
                 <Box />
               </Box>
             </GridItem>
-            <GridItem colSpan={1} maxH={'400px'}>
+            <GridItem colSpan={1} maxH={'400px'} w="full">
               <Box
                 bg="#2C3045"
                 p="20px"

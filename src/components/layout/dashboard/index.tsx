@@ -15,7 +15,9 @@ export default function LayoutDashboard({ children, title }: LayoutProps) {
     <Box w="100%" color={'#fff'}>
       <HeaderDashboard />
       <Flex overflowY={'hidden'}>
-        <Sidebar />
+        <Box display={{ base: 'none', lg: 'flex' }}>
+          <Sidebar />
+        </Box>
         <Box bg="#20253A" w="100%" overflowY={'hidden'}>
           <Box
             __css={{

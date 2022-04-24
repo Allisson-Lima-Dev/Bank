@@ -39,7 +39,6 @@ export default function Sidebar() {
 
   return (
     <Box
-      display={{ base: 'none', lg: 'flex' }}
       as="aside"
       w="200px"
       // pl="20px"
